@@ -1,0 +1,6 @@
+---
+- import_tasks: "config.yml"
+- include_tasks: "install_{{ container_runtime }}.yml"
+
+- name: flush handlers
+  meta: flush_handlers

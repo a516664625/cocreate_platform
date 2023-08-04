@@ -1,0 +1,19 @@
+---
+- name: start {{ cocreate_container_name }} container
+  docker_container:
+    name: "{{ cocreate_container_name }}"
+    command: "akvorado cocreate -D /etc/cocreate/cocreate.yaml"
+    image: "{{ cocreate_image_full }}"
+    pull: "{{ cocreate_image_force_pull }}"
+    restart_policy: always
+    network_mode: host
+    cpuset_cpus: "{{ cocreate_cpuset_cpus }}"
+    init: true
+    env:
+      PS1: '({{ cocreate_container_name }})[\u@\h \w]\$ '
+    volumes:
+      - "/etc/pki:/etc/pki:ro"
+      - "/run:/run:rw"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "{{ cocreate_etc_path }}/:/etc/cocreate/:rw"
+    detach: true

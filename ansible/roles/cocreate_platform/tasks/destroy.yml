@@ -1,0 +1,12 @@
+---
+- name: remove inlet container
+  docker_container:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ inlet_container_name }}"
+
+- name: remove inlet etc folder
+  file:
+    path: "{{ inlet_etc_path }}"
+    state: absent

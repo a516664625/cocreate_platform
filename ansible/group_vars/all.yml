@@ -1,0 +1,39 @@
+---
+####################
+# Global variables #
+####################
+ip_version: 4
+default_cpuset_cpus: "{{ omit }}"
+network_interface: eth0
+docker_force_pull: false
+container_runtime: docker
+enable_inlet: true
+
+##########
+# Docker #
+##########
+docker_registry: ''
+
+#########
+# inlet #
+#########
+inlet_ip_version: "{{ ip_version }}"
+inlet_listen_interface: "{{ network_interface }}"
+inlet_listen_address: "{{ inlet_listen_interface|address(ip_version=inlet_ip_version) }}"
+inlet_http_listen_port: 8008
+netflow_listen_port: 2055
+sflow_listen_port: 6343
+inlet_image_force_pull: "{{ docker_force_pull }}"
+
+topic: "flow"
+kafka_listen_address:
+  - "172.18.22.70"
+  - "172.18.22.75"
+enable_sasl: true
+kakfa_version: 2.2.0
+saslusername: "admin"
+saslpassword: "pass"
+saslmechanism: "scram-sha256"
+kafka_listen_port: 30096
+region_name: "edge"
+samplingrate: 1000

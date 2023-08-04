@@ -1,0 +1,4 @@
+---
+- name: "docker: restart cocreate service"
+  become: true
+  command: "docker restart {{ cocreate_container_name }}"

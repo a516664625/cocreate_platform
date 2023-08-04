@@ -1,0 +1,30 @@
+---
+##########
+# Docker #
+##########
+docker_registry: ''
+cocreate_namespace: ""
+cocreate_image: "cocreate_namespace"
+cocreate_namespace_image_tag: "latest"
+cocreate_namespace_image_force_pull: true
+container_runtime: docker
+
+inlet_image_full: "\
+{{ docker_registry ~ '/' if docker_registry else '' }}\
+{{ cocreate_namespace ~ '/' if cocreate_namespace else '' }}\
+{{ cocreate_image }}\
+:{{ cocreate_image_tag }}"
+
+cocreate_container_name: "inlet"
+
+############
+# cocreate #
+############
+cocreate_etc_path: "/etc/{{ cocreate_container_name }}"
+cocreate_ip_version: 4
+cocreate_listen_interface: eth0
+cocreate_http_listen_port: 8008
+cocreate_listen_address: "{{ cocreate_listen_interface|address(ip_version=inlet_ip_version) }}"
+cocreate_cpuset_cpus: "{{ omit }}"
+# destroy tasks
+cocreate_destroy_all: true

@@ -1,0 +1,4 @@
+---
+- name: "podman: restart cocreate service"
+  become: true
+  command: "podman restart {{ cocreate_container_name }}"

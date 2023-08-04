@@ -1,0 +1,29 @@
+---
+- name: Pull inlet image
+  containers.podman.podman_image:
+    name: "{{ inlet_image_full }}"
+    force: "{{ inlet_image_force_pull | bool }}"
+
+- name: start {{ inlet_container_name }} container
+  containers.podman.podman_container:
+    name: "{{ inlet_container_name }}"
+    command:
+      - akvorado
+      - inlet
+      - -D
+      - /etc/inlet/inlet.yaml
+    image: "{{ inlet_image_full }}"
+    image_strict: true
+    restart_policy: always
+    network_mode: host
+    cpuset_cpus: "{{ inlet_cpuset_cpus }}"
+    init: true
+    env:
+      SERVICE_NAME: "{{ inlet_container_name }}"
+      PS1: '({{ inlet_container_name }})[\u@\h \w]\$ '
+    volumes:
+      - "/etc/pki:/etc/pki:ro"
+      - "/run:/run:rw"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "{{ inlet_etc_path }}/:/etc/inlet/:rw"
+    detach: true

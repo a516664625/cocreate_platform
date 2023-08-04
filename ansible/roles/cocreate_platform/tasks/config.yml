@@ -1,0 +1,22 @@
+---
+- name: ensure etc folder
+  file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+  with_items:
+    - "{{ cocreate_etc_path }}"
+
+- name: copying cocreate configuration file
+  template:
+    src: "{{ item }}"
+    dest: "{{ cocreate_etc_path }}/cocreate.yaml"
+    mode: 0644
+  with_first_found:
+    - files:
+        - "cocreate.yaml.j2"
+      paths:
+        - "{{ role_path }}/templates"
+        - "{{ playbook_dir }}/templates/{{ role_name }}"
+  notify:
+    - "{{ container_runtime }}: restart cocreate service"
